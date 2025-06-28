@@ -22,11 +22,13 @@ import { router } from "expo-router";
 interface ProductTableRowProps {
   product: ProductType;
   onDeleteSuccess: () => void;
+  index: number;
 }
 
 const ProductTableRow = ({
   product,
   onDeleteSuccess,
+  index,
 }: ProductTableRowProps) => {
   const { user } = useAuth();
 
@@ -73,8 +75,21 @@ const ProductTableRow = ({
   };
 
   return (
-    <View style={productStyles.tableRow}>
-      <Text style={[productStyles.tableCell, productStyles.titleCell]}>
+    <View
+      style={[
+        productStyles.tableRow,
+        { backgroundColor: index % 2 === 0 ? "#EEEEEE" : "white" },
+      ]}
+    >
+      <Text style={productStyles.tableCell}>{index + 1}</Text>
+      <Text
+        style={[
+          productStyles.tableCell,
+          productStyles.titleCell,
+          { maxWidth: 120 },
+        ]}
+        numberOfLines={2}
+      >
         {product.title}
       </Text>
       <Text style={productStyles.tableCell}>{product.sku}</Text>
@@ -148,10 +163,12 @@ const AllProduct = () => {
 
   return (
     <View style={productStyles.container}>
-      <SearchContainer
-        setFilterData={setFilterProduct}
-        originalData={products}
-      />
+      {products && (
+        <SearchContainer
+          setFilterData={setFilterProduct}
+          originalData={products}
+        />
+      )}
       <Text style={productStyles.productCounterText}>
         Total Products: {productCounter}
       </Text>
@@ -165,6 +182,7 @@ const AllProduct = () => {
         <View style={productStyles.tableContainer}>
           {/* Table Header - Now inside the same horizontal ScrollView content */}
           <View style={productStyles.tableHeader}>
+            <Text style={productStyles.tableHeaderCell}>SL No.</Text>
             <Text
               style={[
                 productStyles.tableHeaderCell,
@@ -187,10 +205,11 @@ const AllProduct = () => {
           <FlatList
             data={filterProducts}
             keyExtractor={(item) => item.id}
-            renderItem={({ item }) => (
+            renderItem={({ item, index }) => (
               <ProductTableRow
                 product={item}
                 onDeleteSuccess={handleRefreshProduct}
+                index={index}
               />
             )}
             onRefresh={handleRefreshProduct}

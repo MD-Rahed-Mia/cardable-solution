@@ -1,7 +1,7 @@
 import useAuth from "@/context/authContext";
 import getSalesReport from "@/services/sales/report/getSalesReport";
 import { ProductType } from "@/types/products/product.types";
-import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
+import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
 import { DateTimePickerAndroid } from "@react-native-community/datetimepicker";
 import * as MediaLibrary from "expo-media-library";
 import React, { useState } from "react";
@@ -26,17 +26,26 @@ export interface ReportType extends ProductType {
 // Inline SalesReportCard for table row rendering
 const RenderSalesTableRow = ({ item }: { item: ReportType }) => (
   <View style={salesReportStyles.tableRow}>
-    <Text style={[salesReportStyles.tableCell, salesReportStyles.titleCell]}>{item.title}</Text>
+    <Text
+      style={[
+        salesReportStyles.tableCell,
+        salesReportStyles.titleCell,
+        { maxWidth: 120 },
+      ]}
+    >
+      {item.title}
+    </Text>
     <Text style={salesReportStyles.tableCell}>{item.sku}</Text>
     <Text style={salesReportStyles.tableCell}>{item.ctnSize}</Text>
     <Text style={salesReportStyles.tableCell}>{item.dealerPrice}</Text>
     <Text style={salesReportStyles.tableCell}>{item.tradePrice}</Text>
     <Text style={salesReportStyles.tableCell}>{item.retailerPrice}</Text>
-    <Text style={[salesReportStyles.tableCell, salesReportStyles.quantityCell]}>{item.salesQuantity}</Text>
+    <Text style={[salesReportStyles.tableCell, salesReportStyles.quantityCell]}>
+      {item.salesQuantity}
+    </Text>
     <Text style={salesReportStyles.tableCell}>{item.stock}</Text>
   </View>
 );
-
 
 const SalesReport = () => {
   const [startDate, setStartDate] = useState(new Date());
@@ -119,9 +128,9 @@ const SalesReport = () => {
 
     try {
       // Map data to a flat structure suitable for XLSX, possibly selecting relevant fields
-      const dataToExport = report.map(item => ({
+      const dataToExport = report.map((item) => ({
         "Product Title": item.title,
-        "SKU": item.sku,
+        SKU: item.sku,
         "CTN Size": item.ctnSize,
         "Dealer Price": item.dealerPrice,
         "Trade Price": item.tradePrice,
@@ -170,8 +179,14 @@ const SalesReport = () => {
         <ActivityIndicator color="#fff" />
       ) : (
         <>
-          <MaterialCommunityIcons name="microsoft-excel" size={24} color="#fff" />
-          <Text style={salesReportStyles.downloadButtonText}>Download Report</Text>
+          <MaterialCommunityIcons
+            name="microsoft-excel"
+            size={24}
+            color="#fff"
+          />
+          <Text style={salesReportStyles.downloadButtonText}>
+            Download Report
+          </Text>
         </>
       )}
     </TouchableOpacity>
@@ -182,11 +197,21 @@ const SalesReport = () => {
       <Text style={salesReportStyles.headerTitle}>Sales Report</Text>
 
       <View style={salesReportStyles.datePickerContainer}>
-        <Pressable style={salesReportStyles.dateButton} onPress={showStartDatePicker}>
-          <Text style={salesReportStyles.dateButtonText}>From: {startDate.toLocaleDateString("en-GB")}</Text>
+        <Pressable
+          style={salesReportStyles.dateButton}
+          onPress={showStartDatePicker}
+        >
+          <Text style={salesReportStyles.dateButtonText}>
+            From: {startDate.toLocaleDateString("en-GB")}
+          </Text>
         </Pressable>
-        <Pressable style={salesReportStyles.dateButton} onPress={showEndDatePicker}>
-          <Text style={salesReportStyles.dateButtonText}>To: {endDate.toLocaleDateString("en-GB")}</Text>
+        <Pressable
+          style={salesReportStyles.dateButton}
+          onPress={showEndDatePicker}
+        >
+          <Text style={salesReportStyles.dateButtonText}>
+            To: {endDate.toLocaleDateString("en-GB")}
+          </Text>
         </Pressable>
       </View>
 
@@ -198,7 +223,9 @@ const SalesReport = () => {
         {loadingReport ? (
           <ActivityIndicator color="#fff" />
         ) : (
-          <Text style={salesReportStyles.generateReportButtonText}>Generate Report</Text>
+          <Text style={salesReportStyles.generateReportButtonText}>
+            Generate Report
+          </Text>
         )}
       </TouchableOpacity>
 
@@ -213,16 +240,38 @@ const SalesReport = () => {
           No sales data found for the selected date range.
         </Text>
       ) : (
-        <ScrollView horizontal showsHorizontalScrollIndicator={true} style={salesReportStyles.horizontalScrollView}>
+        <ScrollView
+          horizontal
+          showsHorizontalScrollIndicator={true}
+          style={salesReportStyles.horizontalScrollView}
+        >
           <View style={salesReportStyles.tableContainer}>
             <View style={salesReportStyles.tableHeader}>
-              <Text style={[salesReportStyles.tableHeaderCell, salesReportStyles.titleHeaderCell]}>Item Title</Text>
+              <Text
+                style={[
+                  salesReportStyles.tableHeaderCell,
+                  salesReportStyles.titleHeaderCell,
+                ]}
+              >
+                Item Title
+              </Text>
               <Text style={salesReportStyles.tableHeaderCell}>SKU</Text>
               <Text style={salesReportStyles.tableHeaderCell}>CTN Size</Text>
-              <Text style={salesReportStyles.tableHeaderCell}>Dealer Price</Text>
+              <Text style={salesReportStyles.tableHeaderCell}>
+                Dealer Price
+              </Text>
               <Text style={salesReportStyles.tableHeaderCell}>Trade Price</Text>
-              <Text style={salesReportStyles.tableHeaderCell}>Retailer Price</Text>
-              <Text style={[salesReportStyles.tableHeaderCell, salesReportStyles.quantityHeaderCell]}>Sold Qty</Text>
+              <Text style={salesReportStyles.tableHeaderCell}>
+                Retailer Price
+              </Text>
+              <Text
+                style={[
+                  salesReportStyles.tableHeaderCell,
+                  salesReportStyles.quantityHeaderCell,
+                ]}
+              >
+                Sold Qty
+              </Text>
               <Text style={salesReportStyles.tableHeaderCell}>Stock</Text>
             </View>
             <FlatList
@@ -251,8 +300,8 @@ const salesReportStyles = StyleSheet.create({
     fontWeight: "bold",
     color: "#004D40",
     marginBottom: 20,
-    alignSelf: 'flex-start',
-    width: '100%',
+    alignSelf: "flex-start",
+    width: "100%",
   },
   datePickerContainer: {
     flexDirection: "row",
@@ -272,7 +321,7 @@ const salesReportStyles = StyleSheet.create({
     elevation: 5,
     flex: 1,
     marginHorizontal: 5,
-    alignItems: 'center',
+    alignItems: "center",
   },
   dateButtonText: {
     color: "#333",
@@ -302,10 +351,10 @@ const salesReportStyles = StyleSheet.create({
     marginTop: 30,
   },
   emptyListText: {
-    textAlign: 'center',
+    textAlign: "center",
     marginTop: 30,
     fontSize: 16,
-    color: '#777',
+    color: "#777",
   },
   flatListContent: {
     paddingBottom: 20,
@@ -314,7 +363,7 @@ const salesReportStyles = StyleSheet.create({
     backgroundColor: "#28A745",
     paddingVertical: 15,
     borderRadius: 30,
-    flexDirection: 'row',
+    flexDirection: "row",
     justifyContent: "center",
     alignItems: "center",
     gap: 10,
@@ -343,7 +392,7 @@ const salesReportStyles = StyleSheet.create({
     shadowRadius: 5,
     elevation: 3,
     overflow: "hidden",
-    minWidth: 700, // Adjusted minWidth for the table to accommodate all columns
+    minWidth: 700, 
   },
   tableHeader: {
     flexDirection: "row",
@@ -359,7 +408,7 @@ const salesReportStyles = StyleSheet.create({
     color: "#333",
     textAlign: "center",
     paddingHorizontal: 4,
-    minWidth: 70, // Minimum width for each header cell
+    minWidth: 120,
   },
   titleHeaderCell: {
     minWidth: 160,
@@ -382,7 +431,7 @@ const salesReportStyles = StyleSheet.create({
     color: "#444",
     textAlign: "center",
     paddingHorizontal: 4,
-    minWidth: 70, // Minimum width for each data cell
+    minWidth: 120,
   },
   titleCell: {
     minWidth: 160,
@@ -391,8 +440,8 @@ const salesReportStyles = StyleSheet.create({
     paddingLeft: 10,
   },
   quantityCell: {
-    fontWeight: 'bold',
-    color: '#007BFF', // Highlight sold quantity
+    fontWeight: "bold",
+    color: "#007BFF", // Highlight sold quantity
   },
 });
 

@@ -43,6 +43,8 @@ const productSlice = createSlice({
         state.isError = undefined;
       })
       .addCase(fetchProduct.fulfilled, (state, action) => {
+        console.log("product list: ", action.payload);
+
         state.isLoading = false;
         state.products = action.payload;
       })

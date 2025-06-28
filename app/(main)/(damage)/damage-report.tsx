@@ -4,6 +4,7 @@ import generateDamageReport from "@/services/damage/generateDamageReport";
 import React, { useState } from "react";
 import {
   FlatList,
+  ScrollView,
   StyleSheet,
   Text,
   TouchableOpacity,
@@ -25,6 +26,11 @@ interface DamageItemType {
   tradePrice: number;
 }
 
+const splitTextByLength = (text: string, length = 40) => {
+  const regex = new RegExp(`.{1,${length}}`, "g");
+  return text.match(regex) || [];
+};
+
 const DamageReport = () => {
   const [startDate, setStartDate] = useState(new Date());
   const [endDate, setEndDate] = useState(new Date());
@@ -41,21 +47,45 @@ const DamageReport = () => {
     }
   };
 
-  const RenderDamageTableRow = ({ item }: { item: DamageItemType }) => {
+  const RenderDamageTableRow = ({
+    item,
+    index,
+  }: {
+    item: DamageItemType;
+    index: number;
+  }) => {
     const damagePrice = item.dealerPrice * item.damageQuantity;
+    const titleLines = splitTextByLength(item.title, 40);
 
     return (
       <View style={modernStyles.tableRow}>
-        <Text style={[modernStyles.tableCell, { flex: 2 }]}>{item.title}</Text>
-        <Text style={modernStyles.tableCell}>{item.category}</Text>
-        {/* <Text style={modernStyles.tableCell}>{item.sku}</Text> */}
-        <Text style={modernStyles.tableCell}>{item.ctnSize}</Text>
-        <Text style={modernStyles.tableCell}>{item.damageQuantity}</Text>
-        <Text style={modernStyles.tableCell}>{item.tradePrice}</Text>
-        <Text style={modernStyles.tableCell}>{damagePrice.toFixed(1)}</Text>
+        <Text style={[modernStyles.tableCell, { flex: 1 }]}>{index + 1}</Text>
+        <View style={[modernStyles.tableCell, { flex: 2, maxWidth: 120 }]}>
+          {titleLines.map((line, idx) => (
+            <Text key={idx} style={{ fontSize: 12, textAlign: "center" }}>
+              {line}
+            </Text>
+          ))}
+        </View>
+        <Text style={[modernStyles.tableCell, { flex: 1 }]}>
+          {item.category}
+        </Text>
+        <Text style={[modernStyles.tableCell, { flex: 1 }]}>
+          {item.ctnSize}
+        </Text>
+        <Text style={[modernStyles.tableCell, { flex: 1 }]}>
+          {item.damageQuantity}
+        </Text>
+        <Text style={[modernStyles.tableCell, { flex: 1 }]}>
+          {item.tradePrice}
+        </Text>
+        <Text style={[modernStyles.tableCell, { flex: 1 }]}>
+          {damagePrice.toFixed(1)}
+        </Text>
       </View>
     );
   };
+
   return (
     <View style={modernStyles.container}>
       <Text style={modernStyles.headerTitle}>Damage Report</Text>
@@ -78,33 +108,54 @@ const DamageReport = () => {
         <Text style={modernStyles.generateButtonText}>Generate Report</Text>
       </TouchableOpacity>
 
-      {damageList.length > 0 ? (
-        <View style={modernStyles.tableContainer}>
-          <View style={modernStyles.tableHeader}>
-            <Text style={[modernStyles.tableHeaderCell, { flex: 2 }]}>
-              Item Title
-            </Text>
-            <Text style={modernStyles.tableHeaderCell}>Category</Text>
-            {/* <Text style={modernStyles.tableHeaderCell}>SKU</Text> */}
-            <Text style={modernStyles.tableHeaderCell}>CTN Size</Text>
-            <Text style={modernStyles.tableHeaderCell}>Dam. Qty</Text>
-            <Text style={modernStyles.tableHeaderCell}>Trade Price</Text>
-            <Text style={modernStyles.tableHeaderCell}>Damage Price</Text>
+      <ScrollView horizontal>
+        {damageList.length > 0 ? (
+          <View style={modernStyles.tableContainer}>
+            <View style={modernStyles.tableHeader}>
+              <Text style={[modernStyles.tableHeaderCell, { flex: 1 }]}>
+                SL No.
+              </Text>
+              <Text
+                style={[
+                  modernStyles.tableHeaderCell,
+                  { flex: 2, maxWidth: 120 },
+                ]}
+              >
+                Item Title
+              </Text>
+              <Text style={[modernStyles.tableHeaderCell, { flex: 1 }]}>
+                Category
+              </Text>
+              <Text style={[modernStyles.tableHeaderCell, { flex: 1 }]}>
+                CTN Size
+              </Text>
+              <Text style={[modernStyles.tableHeaderCell, { flex: 1 }]}>
+                Dam. Qty
+              </Text>
+              <Text style={[modernStyles.tableHeaderCell, { flex: 1 }]}>
+                Trade Price
+              </Text>
+              <Text style={[modernStyles.tableHeaderCell, { flex: 1 }]}>
+                Damage Price
+              </Text>
+            </View>
+            <FlatList
+              data={damageList}
+              renderItem={({ item, index }) => (
+                <RenderDamageTableRow item={item} index={index} />
+              )}
+              keyExtractor={(item) => item.id.toString()}
+              contentContainerStyle={modernStyles.damageList}
+            />
           </View>
-          <FlatList
-            data={damageList}
-            renderItem={({ item }) => <RenderDamageTableRow item={item} />}
-            keyExtractor={(item) => item.id.toString()}
-            contentContainerStyle={modernStyles.damageList}
-          />
-        </View>
-      ) : (
-        <View style={modernStyles.noDataContainer}>
-          <Text style={modernStyles.noDataText}>
-            Select a date range and generate your damage report.
-          </Text>
-        </View>
-      )}
+        ) : (
+          <View style={modernStyles.noDataContainer}>
+            <Text style={modernStyles.noDataText}>
+              Select a date range and generate your damage report.
+            </Text>
+          </View>
+        )}
+      </ScrollView>
     </View>
   );
 };
@@ -181,13 +232,14 @@ const modernStyles = StyleSheet.create({
     paddingVertical: 12,
     borderBottomWidth: 1,
     borderBottomColor: "#bdc3c7",
+  
   },
   tableHeaderCell: {
-    flex: 1,
     fontSize: 13,
     fontWeight: "700",
     color: "#34495e",
     textAlign: "center",
+    minWidth: 120,
   },
   tableRow: {
     flexDirection: "row",
@@ -196,11 +248,11 @@ const modernStyles = StyleSheet.create({
     borderBottomColor: "#f2f2f2",
   },
   tableCell: {
-    flex: 1,
     fontSize: 12,
     color: "#2c3e50",
     textAlign: "center",
     paddingHorizontal: 4,
+    minWidth: 50,
   },
   damageList: {
     paddingBottom: 20,

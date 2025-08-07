@@ -101,6 +101,15 @@ const AddChallan = () => {
     }
   }
 
+  function ViewChallan() {
+    router.push({
+      pathname: "/view-current-challan-detail",
+      params: {
+        challan: JSON.stringify(challanData),
+      },
+    });
+  }
+
   return (
     <KeyboardAvoidingView
       style={styles.container}
@@ -163,17 +172,38 @@ const AddChallan = () => {
         </Text>
       )}
 
-      <TouchableOpacity
-        style={styles.postChallanButton}
-        onPress={handlePostingChallan}
-        disabled={isPosting}
+      <View
+        style={{
+          flexDirection: "row",
+          alignItems: "center",
+          justifyContent: "space-evenly",
+          gap: 4,
+        }}
       >
-        {isPosting ? (
-          <ActivityIndicator color="#fff" />
-        ) : (
-          <Text style={styles.postChallanButtonText}>Post Challan</Text>
-        )}
-      </TouchableOpacity>
+        <TouchableOpacity
+          style={styles.postChallanButton}
+          onPress={ViewChallan}
+          disabled={isPosting}
+        >
+          {isPosting ? (
+            <ActivityIndicator color="#fff" />
+          ) : (
+            <Text style={styles.postChallanButtonText}>View Challan</Text>
+          )}
+        </TouchableOpacity>
+
+        <TouchableOpacity
+          style={styles.postChallanButton}
+          onPress={handlePostingChallan}
+          disabled={isPosting}
+        >
+          {isPosting ? (
+            <ActivityIndicator color="#fff" />
+          ) : (
+            <Text style={styles.postChallanButtonText}>Post Challan</Text>
+          )}
+        </TouchableOpacity>
+      </View>
 
       {/* Custom Alert Modal */}
       <Modal
@@ -291,7 +321,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
     marginTop: 25,
-    width: "100%",
+    width: "45%",
     shadowColor: "#2980b9",
     shadowOffset: { width: 0, height: 5 },
     shadowOpacity: 0.3,

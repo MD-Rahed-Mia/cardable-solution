@@ -107,7 +107,7 @@ const Home = () => {
       }}
       style={styles.container}
     >
-      <Text style={styles.welcomeText}>Welcome, {user?.email || "User"}!</Text>
+      <Text style={styles.welcomeText}>Welcome, {user?.displayName || user?.email || "User"}!</Text>
       <Text style={styles.headerTitle}>Dashboard</Text>
 
       <View style={styles.buttonsGrid}>

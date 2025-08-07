@@ -106,6 +106,15 @@ const AddSales = () => {
     dispatch(fetchProduct(user.uid));
   }
 
+  function handleViewSalesReport() {
+    router.push({
+      pathname: "/(main)/(sales)/view-current-sale-report",
+      params: {
+        productList: JSON.stringify(salesProductList),
+      },
+    });
+  }
+
   return (
     <KeyboardAvoidingView
       behavior={Platform.OS === "ios" ? "padding" : "height"}
@@ -119,7 +128,9 @@ const AddSales = () => {
             stickyHeaderIndices={[0]}
             ListHeaderComponent={
               <View style={styles.headerContainer}>
-                <Text style={styles.userEmailText}>{user?.email}</Text>
+                <Text style={styles.userEmailText}>
+                  {user?.displayName || user?.email}
+                </Text>
                 <View style={styles.topControlsContainer}>
                   <View style={styles.searchContainer}>
                     <SearchContainer
@@ -141,7 +152,7 @@ const AddSales = () => {
                   <Text style={styles.salesValueText}>
                     Sales Value:{" "}
                     <Text style={styles.salesValueValue}>
-                      &#2547;{salesValue}
+                      &#2547;{salesValue.toFixed()}
                     </Text>
                   </Text>
                 </View>
@@ -159,15 +170,32 @@ const AddSales = () => {
           />
         )}
 
-        <Pressable
-          style={styles.submitButton}
-          onPress={handleSalesPosting}
-          disabled={postingLoading}
+        <View
+          style={{
+            flexDirection: "row",
+            alignItems: "center",
+            justifyContent: "center",
+            gap: 4,
+          }}
         >
-          <Text style={styles.buttonText}>
-            {postingLoading ? "Loading..." : "Post New Sales"}
-          </Text>
-        </Pressable>
+          <Pressable
+            style={styles.submitButton}
+            onPress={handleViewSalesReport}
+            disabled={postingLoading}
+          >
+            <Text style={styles.buttonText}>View Sales</Text>
+          </Pressable>
+
+          <Pressable
+            style={styles.submitButton}
+            onPress={handleSalesPosting}
+            disabled={postingLoading}
+          >
+            <Text style={styles.buttonText}>
+              {postingLoading ? "Loading..." : "Post New Sales"}
+            </Text>
+          </Pressable>
+        </View>
       </View>
     </KeyboardAvoidingView>
   );
@@ -273,6 +301,7 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.2,
     shadowRadius: 4.65,
     elevation: 8,
+    width: "40%",
   },
   submitButtonPressed: {
     backgroundColor: "#0056e0",
@@ -283,7 +312,7 @@ const styles = StyleSheet.create({
   },
   buttonText: {
     color: "white",
-    fontSize: 18,
+    fontSize: 12,
     fontWeight: "600",
   },
 });

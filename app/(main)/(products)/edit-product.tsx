@@ -151,7 +151,7 @@ const EditProduct = () => {
             placeholder="Stock Quantity"
             placeholderTextColor="#888"
             keyboardType="numeric"
-            value={editProductData?.stock.toString()}
+            value={editProductData?.stock?.toString()}
             onChangeText={(text: string) =>
               setEditProductData((prev) => ({ ...prev, stock: Number(text) }))
             }

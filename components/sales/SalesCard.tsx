@@ -63,7 +63,7 @@ const SalesCard = ({
           <Text style={styles.productDetailValue}>
             {" "}
             &#2547;{product.dealerPrice} = &#2547;
-            {product.dealerPrice * salesQuantity}
+            {(product.dealerPrice * salesQuantity).toFixed(1)}
           </Text>
         </Text>
         <Text style={styles.productDetail}>
@@ -71,7 +71,7 @@ const SalesCard = ({
           <Text style={styles.productDetailValue}>
             {" "}
             &#2547;{product.tradePrice} = &#2547;
-            {product.tradePrice * salesQuantity}
+            {(product.tradePrice * salesQuantity).toFixed(1)}
           </Text>
         </Text>
         <Text style={styles.productDetail}>

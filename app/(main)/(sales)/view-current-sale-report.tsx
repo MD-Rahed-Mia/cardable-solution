@@ -1,12 +1,6 @@
 import { useLocalSearchParams } from "expo-router";
 import React from "react";
-import {
-  Dimensions,
-  ScrollView,
-  StyleSheet,
-  Text,
-  View,
-} from "react-native";
+import { Dimensions, ScrollView, StyleSheet, Text, View } from "react-native";
 
 const ViewCurrentSaleReport = () => {
   const { productList } = useLocalSearchParams();
@@ -31,7 +25,12 @@ const ViewCurrentSaleReport = () => {
       <View style={styles.paper}>
         {/* Table Header */}
         <View style={[styles.row, styles.headerRow]}>
-          <Text style={[styles.cell, styles.headerCell, { flex: 3 }]}>Product</Text>
+          <Text style={[styles.cell, styles.headerCell, { maxWidth: 45 }]}>
+            SL
+          </Text>
+          <Text style={[styles.cell, styles.headerCell, { flex: 3 }]}>
+            Product
+          </Text>
           <Text style={[styles.cell, styles.headerCell]}>Price</Text>
           <Text style={[styles.cell, styles.headerCell]}>Qty</Text>
           <Text style={[styles.cell, styles.headerCell]}>Total</Text>
@@ -46,6 +45,7 @@ const ViewCurrentSaleReport = () => {
               index % 2 === 0 ? styles.evenRow : styles.oddRow,
             ]}
           >
+            <Text style={[styles.cell, { maxWidth: 30 }]}>{index + 1}</Text>
             <Text style={[styles.cell, { flex: 3 }]}>{item.title}</Text>
             <Text style={styles.cell}>৳ {item.tradePrice}</Text>
             <Text style={styles.cell}>{item.salesQuantity}</Text>
@@ -62,9 +62,7 @@ const ViewCurrentSaleReport = () => {
           </Text>
           <Text style={styles.cell}></Text>
           <Text style={styles.cell}></Text>
-          <Text style={[styles.cell, styles.totalAmount]}>
-            ৳ {totalPrice}
-          </Text>
+          <Text style={[styles.cell, styles.totalAmount]}>৳ {totalPrice}</Text>
         </View>
       </View>
     </ScrollView>
@@ -110,16 +108,18 @@ const styles = StyleSheet.create({
     backgroundColor: "#f0f8ff",
     borderTopWidth: 2,
     borderColor: "#ccc",
+    marginTop: 40,
   },
   cell: {
     flex: 1,
-    fontSize: 14,
-    textAlign: "left",
+    fontSize: 12,
+    textAlign: "center",
     paddingHorizontal: 8,
   },
   headerCell: {
     fontWeight: "bold",
-    fontSize: 15,
+    fontSize: 13,
+    textAlign: "center",
   },
   totalAmount: {
     fontSize: 15,

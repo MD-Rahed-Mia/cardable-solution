@@ -1,12 +1,6 @@
 import { useLocalSearchParams } from "expo-router";
 import React from "react";
-import {
-    Dimensions,
-    ScrollView,
-    StyleSheet,
-    Text,
-    View,
-} from "react-native";
+import { Dimensions, ScrollView, StyleSheet, Text, View } from "react-native";
 
 const ViewCurrentChallanDetail = () => {
   const { challan } = useLocalSearchParams();
@@ -43,9 +37,13 @@ const ViewCurrentChallanDetail = () => {
 
         {/* Table Header */}
         <View style={[styles.row, styles.headerRow]}>
-          <Text style={[styles.cell, styles.headerCell, { flex: 2 }]}>Product</Text>
+          <Text style={[styles.cell, styles.headerCell, { maxWidth: 40 }]}>
+            SL
+          </Text>
+          <Text style={[styles.cell, styles.headerCell, { flex: 2 }]}>
+            Product
+          </Text>
           <Text style={[styles.cell, styles.headerCell]}>SKU</Text>
-          <Text style={[styles.cell, styles.headerCell]}>Category</Text>
           <Text style={[styles.cell, styles.headerCell]}>Qty</Text>
           <Text style={[styles.cell, styles.headerCell]}>Rate</Text>
           <Text style={[styles.cell, styles.headerCell]}>Total</Text>
@@ -60,9 +58,9 @@ const ViewCurrentChallanDetail = () => {
               index % 2 === 0 ? styles.evenRow : styles.oddRow,
             ]}
           >
+            <Text style={[styles.cell, { maxWidth: 40 }]}>{index + 1}</Text>
             <Text style={[styles.cell, { flex: 2 }]}>{item.title}</Text>
             <Text style={styles.cell}>{item.sku}</Text>
-            <Text style={styles.cell}>{item.category}</Text>
             <Text style={styles.cell}>{item.liftingQuantity}</Text>
             <Text style={styles.cell}>৳ {item.dealerPrice}</Text>
             <Text style={styles.cell}>
@@ -76,9 +74,7 @@ const ViewCurrentChallanDetail = () => {
           <Text style={[styles.cell, { flex: 5, fontWeight: "bold" }]}>
             Total
           </Text>
-          <Text style={[styles.cell, styles.totalAmount]}>
-            ৳ {totalAmount}
-          </Text>
+          <Text style={[styles.cell, styles.totalAmount]}>৳ {totalAmount}</Text>
         </View>
       </View>
     </ScrollView>
@@ -134,16 +130,18 @@ const styles = StyleSheet.create({
     backgroundColor: "#f0f8ff",
     borderTopWidth: 2,
     borderColor: "#ccc",
+    marginTop: 50,
   },
   cell: {
     flex: 1,
-    fontSize: 14,
-    textAlign: "left",
+    fontSize: 12,
+    textAlign: "center",
     paddingHorizontal: 6,
   },
   headerCell: {
     fontWeight: "bold",
-    fontSize: 15,
+    fontSize: 13,
+    textAlign: "center",
   },
   totalAmount: {
     fontSize: 15,

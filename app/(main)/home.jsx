@@ -55,11 +55,7 @@ const Home = () => {
     {
       title: "Damage",
       icon: (
-        <MaterialCommunityIcons
-          name="salesforce"
-          size={30}
-          color="#00796B"
-        />
+        <MaterialCommunityIcons name="salesforce" size={30} color="#00796B" />
       ),
       onPress: () => router.push("/(main)/(damage)"),
     },
@@ -88,6 +84,17 @@ const Home = () => {
       onPress: () => router.push("/(main)/(notes)"),
     },
     {
+      title: "SR",
+      icon: (
+        <MaterialCommunityIcons
+          name="professional-hexagon"
+          size={30}
+          color="#00796B"
+        />
+      ),
+      onPress: () => router.push("/(main)/(sr-management)"),
+    },
+    {
       title: "Profile",
       icon: <AntDesign name="user" size={30} color="#00796B" />,
       onPress: () => router.push("/(main)/(profile)"),
@@ -107,7 +114,9 @@ const Home = () => {
       }}
       style={styles.container}
     >
-      <Text style={styles.welcomeText}>Welcome, {user?.displayName || user?.email || "User"}!</Text>
+      <Text style={styles.welcomeText}>
+        Welcome, {user?.displayName || user?.email || "User"}!
+      </Text>
       <Text style={styles.headerTitle}>Dashboard</Text>
 
       <View style={styles.buttonsGrid}>

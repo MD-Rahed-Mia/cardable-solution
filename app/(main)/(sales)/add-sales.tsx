@@ -1,4 +1,5 @@
 import Calender from "@/components/date/Calender";
+import AssignSRModal from "@/components/sales/AssignSrModal";
 import SalesCard from "@/components/sales/SalesCard";
 import SearchContainer from "@/components/search/SearchContainer";
 import useAuth from "@/context/authContext";
@@ -40,6 +41,12 @@ const AddSales = () => {
   const [filterProducts, setFilterProducts] = useState<ProductType[]>([]);
   const [activeProducts, setActiveProducts] = useState<ProductType[]>([]);
   const [salesCount, setSalesCount] = useState<number>(0);
+  const [assignSrModalVisible, setAssignSrVisible] = useState<boolean>(false);
+  const [srName, setSrName] = useState<string>("");
+
+  useEffect(() => {
+    setAssignSrVisible(true);
+  }, []);
 
   const [salesDate, setSalesDate] = useState(new Date());
 
@@ -89,7 +96,12 @@ const AddSales = () => {
     setPostingLoading(true);
     try {
       if (user) {
-        const result = await addSales(user?.uid, salesProductList, salesDate);
+        const result = await addSales(
+          user?.uid,
+          salesProductList,
+          salesDate,
+          srName.trim()
+        );
         if (result) {
           setSalesProductList([]);
           router.replace("/(main)/(sales)");
@@ -156,6 +168,9 @@ const AddSales = () => {
                     </Text>
                   </Text>
                 </View>
+                <View>
+                  <Text>SR: {srName}</Text>
+                </View>
               </View>
             }
             renderItem={({ item }) => (
@@ -196,6 +211,14 @@ const AddSales = () => {
             </Text>
           </Pressable>
         </View>
+        {user && (
+          <AssignSRModal
+            visible={assignSrModalVisible}
+            onClose={() => setAssignSrVisible(!assignSrModalVisible)}
+            userId={user?.uid}
+            setSrName={setSrName}
+          />
+        )}
       </View>
     </KeyboardAvoidingView>
   );
@@ -223,7 +246,7 @@ const styles = StyleSheet.create({
   },
   headerContainer: {
     backgroundColor: "#ffffff",
-    paddingVertical: 15,
+    paddingVertical: 5,
     paddingHorizontal: 15,
     borderRadius: 10,
     shadowColor: "#000",
@@ -234,19 +257,19 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.1,
     shadowRadius: 3.84,
     elevation: 5,
-    marginBottom: 10,
+    marginBottom: 5,
   },
   userEmailText: {
     fontSize: 12,
     textAlign: "right",
     color: "#555",
-    marginBottom: 10,
+    marginBottom: 5,
   },
   topControlsContainer: {
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-between",
-    marginBottom: 15,
+    marginBottom: 5,
     gap: 10,
   },
   searchContainer: {
@@ -262,16 +285,16 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "space-between",
     paddingHorizontal: 5,
-    marginTop: 10,
+    marginTop: 5,
   },
   salesItemText: {
-    fontSize: 14,
+    fontSize: 12,
     color: "#555",
     fontWeight: "500",
   },
   salesCountValue: {
-    fontSize: 22,
-    color: "#3498db", // A modern blue
+    fontSize: 16,
+    color: "#3498db",
     fontWeight: "bold",
   },
   salesValueText: {

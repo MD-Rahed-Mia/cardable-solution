@@ -103,7 +103,7 @@ const styles = StyleSheet.create({
   card: {
     backgroundColor: "white",
     borderRadius: 15,
-    padding: 15,
+    padding: 5,
     marginVertical: 8,
     marginHorizontal: 5,
     flexDirection: "row",
@@ -125,13 +125,13 @@ const styles = StyleSheet.create({
     alignItems: "flex-end",
   },
   productName: {
-    fontSize: 18,
+    fontSize: 13,
     fontWeight: "bold",
     color: "#333",
     marginBottom: 5,
   },
   productDetail: {
-    fontSize: 14,
+    fontSize: 10,
     color: "#555",
     marginBottom: 2,
   },

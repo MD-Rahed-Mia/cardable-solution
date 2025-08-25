@@ -6,13 +6,14 @@ import {
   doc,
   increment,
   Timestamp,
-  updateDoc
+  updateDoc,
 } from "firebase/firestore";
 
 const addSales = async (
   userId: string,
   productList: SalesProductListType[],
-  salesDate: Date
+  salesDate: Date,
+  srName: string
 ): Promise<boolean> => {
   try {
     if (!userId) {
@@ -32,6 +33,7 @@ const addSales = async (
         addDoc(collection(db, "users", userId, "sales"), {
           ...item,
           timestamp: selectedTime,
+          srName,
         }).then((sales) => {
           updateDoc(doc(db, "users", userId, "products", item.id), {
             stock: increment(-item.salesQuantity),

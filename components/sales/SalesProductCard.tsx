@@ -63,7 +63,7 @@ const SalesProductCard = ({
 const styles = StyleSheet.create({
   card: {
     backgroundColor: "#FFFFFF",
-    padding: 20,
+    padding: 5,
     marginVertical: 8,
     borderRadius: 15,
     shadowColor: "#000",
@@ -77,17 +77,15 @@ const styles = StyleSheet.create({
   header: {
     borderBottomWidth: 1,
     borderBottomColor: "#EEEEEE",
-    paddingBottom: 10,
-    marginBottom: 10,
   },
   productTitle: {
     fontWeight: "bold",
-    fontSize: 20,
+    fontSize: 16,
     color: "#333",
     marginBottom: 5,
   },
   productPrice: {
-    fontSize: 16,
+    fontSize: 12,
     color: "#555",
   },
   detailsContainer: {

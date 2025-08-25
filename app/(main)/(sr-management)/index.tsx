@@ -1,5 +1,3 @@
-import AntDesign from "@expo/vector-icons/AntDesign";
-import Entypo from "@expo/vector-icons/Entypo";
 import Feather from "@expo/vector-icons/Feather";
 import { router } from "expo-router";
 import React from "react";
@@ -11,33 +9,28 @@ interface ButtonType {
   onPress: () => void;
 }
 
-const Sales = () => {
+const SrManagement = () => {
   const salesButton: ButtonType[] = [
     {
-      title: "New Sales",
+      title: "Add SR",
       icon: <Feather name="file-plus" size={30} color="#00796B" />,
-      onPress: () => router.push("/(main)/(sales)/add-sales"),
+      onPress: () => router.push("/(main)/(sr-management)/add-sr"),
     },
     {
-      title: "Sales Report",
-      icon: <Entypo name="bar-graph" size={30} color="#00796B" />,
-      onPress: () => router.push("/(main)/(sales)/sales-report"),
+      title: "Sr List",
+      icon: <Feather name="user" size={30} color="#00796B" />,
+      onPress: () => router.push("/(main)/(sr-management)/sr-list"),
     },
-    {
-      title: "Product Report",
-      icon: <AntDesign name="profile" size={30} color="#00796B" />,
-      onPress: () => router.push("/(main)/(sales)/product-report"),
-    },
-    {
-      title: "SR Report",
-      icon: <AntDesign name="profile" size={30} color="#00796B" />,
-      onPress: () => router.push("/(main)/(sales)/view-sr-wise-sales"),
-    },
+    // {
+    //   title: "Product Report",
+    //   icon: <AntDesign name="profile" size={30} color="#00796B" />,
+    //   onPress: () => router.push("/(main)/(sales)/product-report"),
+    // },
   ];
 
   return (
     <View style={styles.container}>
-      <Text style={styles.headerTitle}>Sales Dashboard</Text>
+      <Text style={styles.headerTitle}>SR Dashboard</Text>
 
       <View style={styles.buttonsGrid}>
         {salesButton.map((button, index) => (
@@ -105,4 +98,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default Sales;
+export default SrManagement;
